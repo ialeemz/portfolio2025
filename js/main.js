@@ -1,11 +1,9 @@
 /* -------------------------------------------
 
-Name: 		Courtney
+Name: 		iamaleem
 Version:    1.0
-Developer:	Nazar Miller (millerDigitalDesign)
-Portfolio:  https://themeforest.net/user/millerdigitaldesign/portfolio?ref=MillerDigitalDesign
+Developer:	Abdul Aleem
 
-p.s. I am available for Freelance hire (UI design, web development). email: miller.themes@gmail.com
 
 ------------------------------------------- */
 
@@ -25,6 +23,26 @@ $(function () {
         plugins: [new SwupBodyClassPlugin()]
     };
     const swup = new Swup(options);
+    // Let external links behave like normal links (new tab + no SPA interception)
+    // Let external links behave like normal links (new tab + no SPA interception)
+    document.addEventListener('click', function (e) {
+    const a = e.target.closest('a');
+    if (!a || !a.getAttribute('href')) return;
+
+    // Ignore hash/anchor scroll handler
+    const href = a.getAttribute('href');
+    if (href.startsWith('#')) return;
+
+    const url = new URL(href, window.location.href);
+
+    // If external origin, don't let Swup touch it
+    if (url.origin !== window.location.origin) {
+        a.setAttribute('target', a.getAttribute('target') || '_blank');
+        if (!a.getAttribute('rel')) a.setAttribute('rel', 'noopener');
+        // important: do NOT preventDefault here—let the browser navigate
+        return;
+    }
+    });
 
     const bodyClassPlugin = new SwupBodyClassPlugin({
         prefix: '.mil-fw-page'
